@@ -26,6 +26,8 @@
 #include <rte_rwlock.h>
 #include <rte_bitmap.h>
 
+#include "mlx5_custom.h"
+
 /* Memory Region object. */
 struct mlx5_mr {
 	LIST_ENTRY(mlx5_mr) mr; /**< Pointer to the prev/next entry. */

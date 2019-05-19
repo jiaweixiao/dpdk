@@ -2405,7 +2405,7 @@ removed_rx_burst(void *dpdk_txq __rte_unused,
  * stubs are needed for linkage when those are not included outside of this file
  * (e.g.  mlx5_rxtx_vec_sse.c for x86).
  */
-
+#if 0
 __rte_weak uint16_t
 mlx5_tx_burst_raw_vec(void *dpdk_txq __rte_unused,
 		      struct rte_mbuf **pkts __rte_unused,
@@ -2453,3 +2453,4 @@ mlx5_check_vec_rx_support(struct rte_eth_dev *dev __rte_unused)
 {
 	return -ENOTSUP;
 }
+#endif

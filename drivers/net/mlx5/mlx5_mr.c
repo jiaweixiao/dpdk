@@ -1368,3 +1368,20 @@ mlx5_mr_release(struct rte_eth_dev *dev)
 	/* Free all remaining MRs. */
 	mlx5_mr_garbage_collect(dev);
 }
+
+void *
+mlx5_manual_reg_mr(uint8_t port_id, void *addr, size_t length, uint32_t *lkey_out)
+{
+	struct rte_eth_dev *dev = &rte_eth_devices[port_id];
+	struct priv *priv = dev->data->dev_private;
+	struct ibv_mr *ibv_mr = mlx5_glue->reg_mr(priv->pd, addr, length, IBV_ACCESS_LOCAL_WRITE);
+	if (ibv_mr && lkey_out) *lkey_out = rte_cpu_to_be_32(ibv_mr->lkey);
+
+	return ibv_mr;
+}
+
+void
+mlx5_manual_dereg_mr(void *ibv_mr)
+{
+	mlx5_glue->dereg_mr(ibv_mr);
+}

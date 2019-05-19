@@ -656,6 +656,10 @@ mlx5_rx_addr2mr(struct mlx5_rxq_data *rxq, uintptr_t addr)
 
 #define mlx5_rx_mb2mr(rxq, mb) mlx5_rx_addr2mr(rxq, (uintptr_t)((mb)->buf_addr))
 
+struct mem_info {
+	uint32_t lkey;
+};
+
 /**
  * Query LKey from a packet buffer for Tx. If not found, add the mempool.
  *
@@ -668,22 +672,10 @@ mlx5_rx_addr2mr(struct mlx5_rxq_data *rxq, uintptr_t addr)
  *   Searched LKey on success, UINT32_MAX on no match.
  */
 static __rte_always_inline uint32_t
-mlx5_tx_mb2mr(struct mlx5_txq_data *txq, struct rte_mbuf *mb)
+mlx5_tx_mb2mr(struct mlx5_txq_data *txq __rte_unused, struct rte_mbuf *mb)
 {
-	struct mlx5_mr_ctrl *mr_ctrl = &txq->mr_ctrl;
-	uintptr_t addr = (uintptr_t)mb->buf_addr;
-	uint32_t lkey;
-
-	/* Check generation bit to see if there's any change on existing MRs. */
-	if (unlikely(*mr_ctrl->dev_gen_ptr != mr_ctrl->cur_gen))
-		mlx5_mr_flush_local_cache(mr_ctrl);
-	/* Linear search on MR cache array. */
-	lkey = mlx5_mr_lookup_cache(mr_ctrl->cache, &mr_ctrl->mru,
-				    MLX5_MR_CACHE_N, addr);
-	if (likely(lkey != UINT32_MAX))
-		return lkey;
-	/* Take slower bottom-half on miss. */
-	return mlx5_tx_mb2mr_bh(txq, mb);
+	struct mem_info *m = (struct mem_info *)(((char *) mb) + sizeof(struct rte_mbuf));
+	return m->lkey;
 }
 
 /**

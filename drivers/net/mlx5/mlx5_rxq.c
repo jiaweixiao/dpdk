@@ -870,9 +870,9 @@ mlx5_rxq_ibv_new(struct rte_eth_dev *dev, uint16_t idx)
 		.pd = priv->pd,
 		.cq = tmpl->cq,
 		.comp_mask =
-			IBV_WQ_FLAGS_CVLAN_STRIPPING |
+			IBV_WQ_INIT_ATTR_FLAGS | IBV_WQ_FLAGS_CVLAN_STRIPPING |
 			0,
-		.create_flags = (rxq_data->vlan_strip ?
+		.create_flags = IBV_WQ_FLAGS_DELAY_DROP | (rxq_data->vlan_strip ?
 				 IBV_WQ_FLAGS_CVLAN_STRIPPING :
 				 0),
 	};
