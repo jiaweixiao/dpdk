@@ -112,7 +112,9 @@ struct virtnet_ctl;
 #define VIRTIO_RING_F_INDIRECT_DESC	28
 
 #define VIRTIO_F_VERSION_1		32
+#ifndef VIRTIO_F_IOMMU_PLATFORM
 #define VIRTIO_F_IOMMU_PLATFORM	33
+#endif
 #define VIRTIO_F_RING_PACKED		34
 
 /*
