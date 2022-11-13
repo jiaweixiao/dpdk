@@ -87,5 +87,9 @@ WERROR_FLAGS += -Wimplicit-fallthrough=2
 WERROR_FLAGS += -Wno-format-truncation
 endif
 
+#Report "taking address of packed member may result
+#in an unaligned pointer value" issues as warnings.
+WERROR_FLAGS += -Wno-error=address-of-packed-member
+
 export CC AS AR LD OBJCOPY OBJDUMP STRIP READELF
 export TOOLCHAIN_CFLAGS TOOLCHAIN_LDFLAGS TOOLCHAIN_ASFLAGS

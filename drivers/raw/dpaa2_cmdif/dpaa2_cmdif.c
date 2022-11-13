@@ -275,7 +275,8 @@ dpaa2_cmdif_remove(struct rte_vdev_device *vdev)
 
 	name = rte_vdev_device_name(vdev);
 
-	DPAA2_CMDIF_INFO("Closing %s on NUMA node %d", name, rte_socket_id());
+	DPAA2_CMDIF_INFO("Closing %s on NUMA node %d", (name ? name : "NULL"),
+		rte_socket_id());
 
 	ret = dpaa2_cmdif_destroy(name);
 

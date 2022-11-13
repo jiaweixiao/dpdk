@@ -712,7 +712,8 @@ skeleton_rawdev_probe(struct rte_vdev_device *vdev)
 		return -EINVAL;
 	}
 
-	SKELETON_PMD_INFO("Init %s on NUMA node %d", name, rte_socket_id());
+	SKELETON_PMD_INFO("Init %s on NUMA node %d", (name ? name : "NULL"),
+		rte_socket_id());
 
 	selftest = skeldev_parse_vdev_args(vdev);
 	/* In case of invalid argument, selftest != 1; ignore other values */
@@ -741,7 +742,8 @@ skeleton_rawdev_remove(struct rte_vdev_device *vdev)
 
 	name = rte_vdev_device_name(vdev);
 
-	SKELETON_PMD_INFO("Closing %s on NUMA node %d", name, rte_socket_id());
+	SKELETON_PMD_INFO("Closing %s on NUMA node %d", (name ? name : "NULL"),
+		rte_socket_id());
 
 	ret = skeleton_rawdev_destroy(name);
 	if (!ret)

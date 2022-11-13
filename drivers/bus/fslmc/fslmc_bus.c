@@ -195,7 +195,7 @@ scan_one_fslmc_device(char *dev_name)
 
 	t_ptr = strtok(NULL, ".");
 	if (!t_ptr) {
-		DPAA2_BUS_ERR("Incorrect device string observed (%s)", t_ptr);
+		DPAA2_BUS_ERR("Incorrect device string observed");
 		goto cleanup;
 	}
 
@@ -256,7 +256,7 @@ rte_fslmc_parse(const char *name, void *addr)
 
 	t_ptr = strchr(name, '.');
 	if (!t_ptr) {
-		DPAA2_BUS_ERR("Incorrect device string observed (%s)", t_ptr);
+		DPAA2_BUS_ERR("Incorrect device string observed");
 		return -EINVAL;
 	}
 
