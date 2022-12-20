@@ -624,7 +624,7 @@ kni_net_rx(struct kni_dev *kni)
  * Deal with a transmit timeout.
  */
 static void
-kni_net_tx_timeout(struct net_device *dev)
+kni_net_tx_timeout(struct net_device *dev, unsigned int txqueue)
 {
 	pr_debug("Transmit timeout at %ld, latency %ld\n", jiffies,
 			jiffies - dev_trans_start(dev));
